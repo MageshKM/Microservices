@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+      - id : CUSTOMER-SERVICE
+        uri: lb://CUSTOMER-SERVICE
+        predicates:
+        - Path=/customer/**
+        
+      - id : PAYMENT-SERVICE
+        uri: lb://PAYMENT-SERVICE
+        predicates:
+        - Path=/payment/**
+server:
+   port: 8095
+    
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: ${eureka_url:http://localhost:8090/eureka}
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
