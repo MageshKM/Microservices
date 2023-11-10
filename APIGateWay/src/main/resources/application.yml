@@ -8,6 +8,7 @@ spring:
         uri: lb://CUSTOMER-SERVICE
         predicates:
         - Path=/customer/**
+        - Method=GET,POST
         
       - id : PAYMENT-SERVICE
         uri: lb://PAYMENT-SERVICE
