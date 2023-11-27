@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @FunctionalInterface
 interface maths {
@@ -30,5 +31,6 @@ public class SAM {
 		System.out.println("Name Transferred to Lower Case");
 		namelist.stream().map(name -> name.toLowerCase()).distinct().collect(Collectors.toList()).forEach(System.out::println);
 		
+	 
 	}
 }

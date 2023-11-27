@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,8 @@ public class FindEmployeeObjects {
 		employeeList.add(new EmployeeObject(122, "Paul Niksui", 25, "Male", "Sales And Marketing", 2015, 13500.0));
 		employeeList.add(new EmployeeObject(133, "Martin Theron", 29, "Male", "Infrastructure", 2012, 18000.0));
 		employeeList.add(new EmployeeObject(144, "Murali Gowda", 28, "Male", "Product Development", 2014, 32500.0));
+		employeeList.add(
+				new EmployeeObject(144, "Magesh Kumar Muniyappa", 28, "Male", "Product Development", 2014, 32500.0));
 		employeeList.add(new EmployeeObject(155, "Nima Roy", 27, "Female", "HR", 2013, 22700.0));
 		employeeList.add(new EmployeeObject(166, "Iqbal Hussain", 43, "Male", "Security And Transport", 2016, 10500.0));
 		employeeList.add(new EmployeeObject(177, "Manu Sharma", 35, "Male", "Account And Finance", 2010, 27000.0));
@@ -34,6 +38,20 @@ public class FindEmployeeObjects {
 		employeeList.add(new EmployeeObject(255, "Ali Baig", 23, "Male", "Infrastructure", 2018, 12700.0));
 		employeeList.add(new EmployeeObject(266, "Sanvi Pandey", 26, "Female", "Product Development", 2015, 28900.0));
 		employeeList.add(new EmployeeObject(277, "Anuj Chettiar", 31, "Male", "Product Development", 2012, 35700.0));
+
+		double avgSal = employeeList.stream().collect(Collectors.averagingDouble(EmployeeObject::getSalary));
+
+		System.out.println("Print two Decimal point -> Avg Salary : " + String.format("%.2f", avgSal));
+
+		System.out.println("----------------------------Third Highest Salary-----------------------");
+		Optional<EmployeeObject> employeedata = employeeList.stream()
+				.sorted(Comparator.comparingDouble(EmployeeObject::getSalary)).limit(3)
+				.max(Comparator.comparingDouble(EmployeeObject::getSalary));
+
+		System.out.println("Name :" + employeedata.get().getName());
+		System.out.println("Age :" + employeedata.get().getAge());
+		System.out.println("Department :" + employeedata.get().getDepartment());
+		System.out.println("Salary :" + employeedata.get().getSalary());
 
 		System.out.println("-----------------------------Group By Age-----------------------");
 		Map<Integer, Long> groupbyAge = employeeList.stream()
@@ -208,6 +226,33 @@ public class FindEmployeeObjects {
 		System.out.println("Age : " + oldestEmployee.getAge());
 
 		System.out.println("Department : " + oldestEmployee.getDepartment());
+
+		System.out.println("------ Display Third Highest Salaried Employee Data?--------");
+		List<EmployeeObject> highestSalaryList = employeeList.stream()
+				.sorted(Comparator.comparingDouble(EmployeeObject::getSalary).reversed()).collect(Collectors.toList());
+
+		EmployeeObject empObj = highestSalaryList.get(2);
+
+		System.out.println("Name :" + empObj.getName());
+		System.out.println("Salary :" + empObj.getSalary());
+		System.out.println("------ GroupBy Third Highest Salaried Employee Data?--------");
+
+		Map<Double, List<EmployeeObject>> map = employeeList.stream()
+				.sorted(Comparator.comparingDouble(EmployeeObject::getSalary).reversed())
+				.collect(Collectors.groupingBy(EmployeeObject::getSalary, LinkedHashMap::new, Collectors.toList()));
+
+		Optional<Entry<Double, List<EmployeeObject>>> findMaxSalary = employeeList.stream()
+				.sorted(Comparator.comparingDouble(EmployeeObject::getSalary).reversed())
+				.collect(Collectors.groupingBy(EmployeeObject::getSalary, LinkedHashMap::new, Collectors.toList()))
+				.entrySet().stream().limit(3).collect(Collectors.minBy(Map.Entry.comparingByKey()));
+
+		findMaxSalary.get().getValue().stream().forEach(e -> {
+			System.out.println(e);
+		});
+		
+		List<EmployeeObject> list = employeeList.stream().map(e -> { e.setSalary(e.getSalary() * 20); return e;}).collect(Collectors.toList());
+		
+		list.stream().forEach(e -> {System.out.println("Name :"+ e.getName() +", Salary :"+ e.getSalary());});
 
 	}
 }

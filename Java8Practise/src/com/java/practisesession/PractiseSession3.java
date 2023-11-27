@@ -74,6 +74,8 @@ public class PractiseSession3 {
 		
 		System.out.println("---------------IntStream Type--------------");
 		IntStream numStream = IntStream.range(1, 10);
+		
+		
 		long val = numStream.sum();
 		System.out.println("Sum :"+ val);
 		

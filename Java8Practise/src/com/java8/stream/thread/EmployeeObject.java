@@ -1,8 +1,6 @@
-package com.java.practisesession;
+package com.java8.stream.thread;
 
-import java.io.Serializable;
-
-public class EmployeeObject implements Serializable {
+class EmployeeObject {
 	int id;
 
 	String name;
@@ -54,34 +52,6 @@ public class EmployeeObject implements Serializable {
 
 	public double getSalary() {
 		return salary;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
-	public void setYearOfJoining(int yearOfJoining) {
-		this.yearOfJoining = yearOfJoining;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
 	}
 
 	@Override
